@@ -1,0 +1,39 @@
+Data Wrangling: Predicting the Next Hot Housing Markets
+
+The Data:
+
+My primary data source is Zillow’s Median Home Value for the last 20 years, available here:
+https://www.zillow.com/research/data/#median-home-value 
+I will also integrate the American Community Survey data later on, but I wanted to start with a solid understanding of the Zillow data.
+
+Working with the Data:
+
+Cleaning Steps 
+
+The data set was already very clean, and I didn’t have to take any specific cleaning steps.  
+
+Working with a Time-Series
+
+The data set included columns for every month for the past 20 years, and the housing values during those months.  The rows were individual zip codes, which resulted in 13,105 rows.  The most challenging part so far has been working with a data set with so many columns to represent time - 261 columns in total.  
+
+While I initially tried using the melt function to get all the dates into a single row, that function seemed to make it more challenging to apply other functions (like mean() ) to my dataframe.  It also made the dataframe very long, with more than 3 million rows.
+
+Then I used the transpose function, but needed to drop some of the non-date columns to get the output I wanted.  To get an initial overview of trends, I wanted to compare different states’ home value trends over the last 20 years.  To do this, I dropped all non-date columns except for State.  Then I grouped by the average home value by state.  Finally I transposed, and this got me a dataframe with one column for date, and 50 columns for states.
+
+As I develop a model around my data, I will aim to continue to use transpose.
+
+Missing Values
+
+In the data set, some zipcodes start having data available more recently than others.  The first month, ‘1996-04’ has the most null values, with 3,525 out of 13,015.  That number drops off quickly in the next year or so, then more gradually until around 2009.  Then the null values in the data drop off steeply, such that less than 1% of the zip codes have any null values for the last 5 years (since 2012), and the last 3 years have virtually none.  In my descriptive statistics I included a graph showing the distribution of null values in the data.
+
+In my initial overview of trends by state, I used mean values, which effectively ignored the null values.  Four states (AK, WY, ND, MT) and Washington DC were entirely missing data for the initial period, meaning I was unable to include them in the 20-year growth overview.
+
+In my model, I will need to consider the best timeframe to use.  I will compare how well my model works with 20 years of data across fewer zipcodes, vs 18 years of data across more zipcodes, vs just focusing on the last 8 years with almost all zipcodes’ data available.
+
+Outliers?
+
+While housing values naturally have a lot of variation across zip codes, I don’t think there are actual outliers.  That’s because each home value datapoint is already an average across each zip code, which buffers the data from true outliers.
+
+Summary
+
+While the missing values and time-series columns present some challenges, I have a good start with my data overall.
